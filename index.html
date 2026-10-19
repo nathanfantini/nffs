@@ -147,7 +147,18 @@ nav .btn{padding:.6em 1.1em;font-size:.82rem}
 .b-art b{font-family:"EB Garamond",Georgia,serif;font-weight:500;font-size:2rem;line-height:1;color:#111}
 .b-art small{font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:#4A4844}
 .b-brands{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;padding-top:12px;border-top:1px solid #EFE6D8;font-family:"EB Garamond",Georgia,serif;font-size:.85rem;color:#4A4844;letter-spacing:.06em}
-@media (max-width:820px){.cases{grid-template-columns:1fr}.case.wide{grid-template-columns:1fr}}
+.video-case{grid-template-columns:1fr 1fr;cursor:default}
+.video-case:hover{transform:none}
+.img.video-bg{background:radial-gradient(ellipse at 30% 20%,#2F5A3F,#173726 60%,#0F2419);align-items:center;padding:32px 20px}
+.case .img .vphone{width:min(250px,70%);margin:0;border:8px solid var(--black);border-radius:34px;overflow:hidden;aspect-ratio:9/16;max-width:100%;background:var(--black)}
+.vphone video{display:block;width:100%;height:100%;object-fit:cover;border-radius:26px;background:#173726}
+.vfacts{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:22px}
+.vfacts li{display:grid}
+.vfacts b{font-size:1.4rem;font-weight:800;letter-spacing:-.04em;color:var(--black)}
+.vfacts span{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6B7280}
+.go.sound{align-self:flex-start;background:none;border:1px solid var(--gray);border-radius:999px;padding:.6em 1.1em;font:600 .88rem var(--font);color:var(--blue);cursor:pointer}
+.go.sound:hover{border-color:var(--blue)}
+@media (max-width:820px){.cases{grid-template-columns:1fr}.case.wide{grid-template-columns:1fr}.video-case .img{order:-1}}
 @media (max-width:480px){.b-links{display:none}.b-hero{grid-template-columns:1fr}.b-art{display:none}}
 
 /* serviços */
@@ -290,7 +301,7 @@ footer{padding-block:24px 40px;display:flex;justify-content:space-between;flex-w
         <p class="label" style="margin-bottom:14px">Trabalhos recentes</p>
         <h2>Cases <span>no ar</span></h2>
       </div>
-      <div class="tally"><span>Projetos · <b>3</b></span><span>Indústria · <b>1</b></span><span>Beleza · <b>2</b></span></div>
+      <div class="tally"><span>Projetos · <b>4</b></span><span>Sites · <b>3</b></span><span>Vídeo · <b>1</b></span></div>
     </div>
     <div class="cases">
       <a class="case wide" href="https://bonirepresentacoes.com.br/" target="_blank" rel="noopener">
@@ -333,6 +344,24 @@ footer{padding-block:24px 40px;display:flex;justify-content:space-between;flex-w
           <span class="go">Ver o site ao vivo ↗</span>
         </div>
       </a>
+      <article class="case wide video-case">
+        <div class="body">
+          <p class="label">Beleza e bem-estar · Vídeo comercial · 2026</p>
+          <h3>Espaço Biorgânica</h3>
+          <p>Comercial de 20 segundos no formato vertical, pronto para Reels, Stories e anúncios. Apresenta o espaço, os três serviços e fecha chamando para agendar pelo Instagram.</p>
+          <ul class="vfacts">
+            <li><b>20s</b><span>duração</span></li>
+            <li><b>9:16</b><span>formato vertical</span></li>
+            <li><b>Reels</b><span>Stories e anúncios</span></li>
+          </ul>
+          <button class="go sound" type="button" id="soundBtn" aria-pressed="false">Ligar o som 🔊</button>
+        </div>
+        <div class="img video-bg">
+          <div class="phone vphone">
+            <video id="bioVideo" src="video/biorganica.mp4" poster="video/biorganica-poster.jpg" autoplay muted loop playsinline preload="metadata" width="720" height="1280" aria-label="Vídeo comercial do Espaço Biorgânica"></video>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -351,7 +380,8 @@ footer{padding-block:24px 40px;display:flex;justify-content:space-between;flex-w
       <a class="row js-whats" href="#contato"><span class="n">02</span><div><h3>Landing page</h3><p>Uma página para vender um serviço, promoção ou anúncio</p></div><span class="arr">→</span></a>
       <a class="row js-whats" href="#contato"><span class="n">03</span><div><h3>Site link na bio</h3><p>Todos os seus links com a cara da sua marca</p></div><span class="arr">→</span></a>
       <a class="row js-whats" href="#contato"><span class="n">04</span><div><h3>Página de agendamento</h3><p>Cliente marca o horário sozinha · painel de métricas</p></div><span class="arr">→</span></a>
-      <a class="row js-whats" href="#contato"><span class="n">05</span><div><h3>Fotos com IA</h3><p>Produto e espaço com cara de estúdio · para site e Instagram</p></div><span class="arr">→</span></a>
+      <a class="row js-whats" href="#contato"><span class="n">05</span><div><h3>Vídeos comerciais</h3><p>Vídeos verticais para Reels, Stories e anúncios</p></div><span class="arr">→</span></a>
+      <a class="row js-whats" href="#contato"><span class="n">06</span><div><h3>Fotos com IA</h3><p>Produto e espaço com cara de estúdio · para site e Instagram</p></div><span class="arr">→</span></a>
     </div>
   </section>
 
@@ -445,6 +475,16 @@ footer{padding-block:24px 40px;display:flex;justify-content:space-between;flex-w
   function auto(){ clearInterval(timer); if (reduce) return; timer = setInterval(() => go((cur+1) % stages.length), 4200); }
   stages.forEach((s,i) => s.addEventListener("click", () => { go(i); auto(); }));
   go(0); auto();
+
+  // vídeo: ligar e desligar o som
+  const vid = document.getElementById("bioVideo");
+  const sb = document.getElementById("soundBtn");
+  sb.addEventListener("click", () => {
+    vid.muted = !vid.muted;
+    if (!vid.muted) { vid.currentTime = 0; vid.play().catch(() => {}); }
+    sb.setAttribute("aria-pressed", String(!vid.muted));
+    sb.textContent = vid.muted ? "Ligar o som 🔊" : "Desligar o som 🔇";
+  });
 
   // exemplo computador / celular
   const site = document.getElementById("site");
