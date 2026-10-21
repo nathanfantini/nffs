@@ -147,6 +147,14 @@ nav .btn{padding:.6em 1.1em;font-size:.82rem}
 .img.video-bg{background:radial-gradient(ellipse at 30% 20%,#2F5A3F,#173726 60%,#0F2419);align-items:center;padding:32px 20px}
 .case .img .vphone{width:min(250px,70%);margin:0;border:8px solid var(--black);border-radius:34px;overflow:hidden;aspect-ratio:9/16;max-width:100%;background:var(--black)}
 .vphone video{display:block;width:100%;height:100%;object-fit:cover;border-radius:26px;background:#173726}
+.vtabs{display:flex;gap:6px;margin-top:6px;background:#EEF0F3;border-radius:999px;padding:4px;align-self:flex-start;flex-wrap:wrap}
+.vtabs button{font:600 .85rem var(--font);border:0;background:transparent;color:#4B5563;padding:.55em 1.1em;border-radius:999px;cursor:pointer;display:flex;gap:.5em;align-items:baseline;touch-action:manipulation;user-select:none;-webkit-user-select:none;transition:background .15s,color .15s,transform .12s}
+.vtabs button span{font-size:.72rem;font-weight:500;opacity:.7}
+.vtabs button[aria-selected="true"]{background:var(--black);color:var(--white)}
+.vtabs button:active{transform:scale(.97)}
+.video-bg{flex-direction:column;gap:14px}
+.vtag{font-size:.66rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.vphone video{transition:opacity .2s}
 .vfacts{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:22px}
 .vfacts li{display:grid}
 .vfacts b{font-size:1.4rem;font-weight:800;letter-spacing:-.04em;color:var(--black)}
@@ -317,7 +325,7 @@ button,.btn,.stage,.step,.view button,.copy,nav a{user-select:none;-webkit-user-
         <p class="label" style="margin-bottom:14px">Trabalhos recentes</p>
         <h2>Cases <span>no ar</span></h2>
       </div>
-      <div class="tally"><span>Projetos · <b>4</b></span><span>Sites · <b>3</b></span><span>Vídeo · <b>1</b></span></div>
+      <div class="tally"><span>Projetos · <b>4</b></span><span>Sites · <b>3</b></span><span>Vídeos · <b>2</b></span></div>
     </div>
     <div class="cases">
       <a class="case wide" href="https://bonirepresentacoes.com.br/" target="_blank" rel="noopener">
@@ -362,11 +370,15 @@ button,.btn,.stage,.step,.view button,.copy,nav a{user-select:none;-webkit-user-
       </a>
       <article class="case wide video-case">
         <div class="body">
-          <p class="label">Beleza e bem-estar · Vídeo comercial · 2026</p>
+          <p class="label">Beleza e bem-estar · Vídeos · 2026</p>
           <h3>Espaço Biorgânica</h3>
-          <p>Comercial de 20 segundos no formato vertical, pronto para Reels, Stories e anúncios. Apresenta o espaço, os três serviços e fecha chamando para agendar pelo Instagram.</p>
+          <p id="vDesc">Comercial de 20 segundos no formato vertical, pronto para Reels, Stories e anúncios. Apresenta o espaço, os três serviços e fecha chamando para agendar pelo Instagram.</p>
+          <div class="vtabs" role="tablist" aria-label="Vídeos do Espaço Biorgânica">
+            <button type="button" role="tab" aria-selected="true" data-src="video/biorganica.mp4" data-poster="video/biorganica-poster.jpg" data-time="20s" data-kind="comercial" data-desc="Comercial de 20 segundos no formato vertical, pronto para Reels, Stories e anúncios. Apresenta o espaço, os três serviços e fecha chamando para agendar pelo Instagram.">Comercial<span>20s</span></button>
+            <button type="button" role="tab" aria-selected="false" data-src="video/biorganica-htm.mp4" data-poster="video/biorganica-htm-poster.jpg" data-time="1min" data-kind="explicativo" data-desc="Vídeo explicativo de 1 minuto sobre a radiofrequência Effect HTM: como o calor age na pele, os aplicadores, as indicações e o passo a passo da sessão. Ensina e já convida para agendar.">Explicativo<span>1min</span></button>
+          </div>
           <ul class="vfacts">
-            <li><b>20s</b><span>duração</span></li>
+            <li><b>2</b><span>vídeos</span></li>
             <li><b>9:16</b><span>formato vertical</span></li>
             <li><b>Reels</b><span>Stories e anúncios</span></li>
           </ul>
@@ -376,6 +388,7 @@ button,.btn,.stage,.step,.view button,.copy,nav a{user-select:none;-webkit-user-
           <div class="phone vphone">
             <video id="bioVideo" src="video/biorganica.mp4" poster="video/biorganica-poster.jpg" autoplay muted loop playsinline preload="metadata" width="720" height="1280" aria-label="Vídeo comercial do Espaço Biorgânica"></video>
           </div>
+          <span class="vtag" id="vTag">Comercial · 20s</span>
         </div>
       </article>
     </div>
@@ -492,14 +505,33 @@ button,.btn,.stage,.step,.view button,.copy,nav a{user-select:none;-webkit-user-
   stages.forEach((s,i) => s.addEventListener("click", () => { go(i); auto(); }));
   go(0); auto();
 
-  // vídeo: ligar e desligar o som
+  // vídeos: abas e som
   const vid = document.getElementById("bioVideo");
   const sb = document.getElementById("soundBtn");
+  const vDesc = document.getElementById("vDesc");
+  const vTag = document.getElementById("vTag");
+  const tabs = [...document.querySelectorAll(".vtabs button")];
+  function setSoundLabel(){ sb.setAttribute("aria-pressed", String(!vid.muted)); sb.textContent = vid.muted ? "Ligar o som 🔊" : "Desligar o som 🔇"; }
+  tabs.forEach(t => t.addEventListener("click", () => {
+    if (t.getAttribute("aria-selected") === "true") return;
+    tabs.forEach(x => x.setAttribute("aria-selected", x === t ? "true" : "false"));
+    const keepSound = !vid.muted;
+    vid.style.opacity = 0;
+    vid.poster = t.dataset.poster;
+    vid.src = t.dataset.src;
+    vid.muted = !keepSound;
+    vid.setAttribute("aria-label", "Vídeo " + t.dataset.kind + " do Espaço Biorgânica");
+    vid.play().catch(() => {});
+    vid.addEventListener("loadeddata", () => { vid.style.opacity = 1; }, { once: true });
+    setTimeout(() => { vid.style.opacity = 1; }, 400);
+    vDesc.textContent = t.dataset.desc;
+    vTag.textContent = t.textContent.replace(t.querySelector("span").textContent, "") + " · " + t.dataset.time;
+    setSoundLabel();
+  }));
   sb.addEventListener("click", () => {
     vid.muted = !vid.muted;
     if (!vid.muted) { vid.currentTime = 0; vid.play().catch(() => {}); }
-    sb.setAttribute("aria-pressed", String(!vid.muted));
-    sb.textContent = vid.muted ? "Ligar o som 🔊" : "Desligar o som 🔇";
+    setSoundLabel();
   });
 
   // exemplo computador / celular
